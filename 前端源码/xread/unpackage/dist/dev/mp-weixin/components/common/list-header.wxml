@@ -1,0 +1,1 @@
+<view class="flex align-center justify-between p-2 my-1"><view class="font-md"><slot name="title"></slot></view><view class="flex align-center"><view class="font text-light-black"><block wx:if="{{$slots.tips}}"><slot name="tips"></slot></block><block wx:else>查看全部</block></view><text class="iconfont iconmore text-light-black"></text></view></view>

@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "rotation-chat": "/components/common/rotation-chat",
+    "function-sort": "/components/common/function-sort",
+    "list-header": "/components/common/list-header",
+    "recommond": "/components/compound/recommond",
+    "book-list": "/components/common/book-list",
+    "load-more": "/components/common/load-more"
+  }
+}

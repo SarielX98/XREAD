@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "排行榜",
+  "usingComponents": {
+    "book-list": "/components/common/book-list",
+    "uni-load-more": "/components/uni-ui/uni-load-more/uni-load-more"
+  }
+}

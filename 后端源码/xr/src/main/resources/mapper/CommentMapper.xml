@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sarielx.study.xr.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.sarielx.study.xr.entity.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="fid" jdbcType="INTEGER" property="fid" />
+    <result column="fnum" jdbcType="INTEGER" property="fnum" />
+    <result column="data" jdbcType="VARCHAR" property="data" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="BaseResultMapWithUser" type="com.sarielx.study.xr.entity.Comment">
+    <association property="user" javaType="com.sarielx.study.xr.entity.User" column="user_id">
+      <id column="user_id" jdbcType="INTEGER" property="id"/>
+      <result column="username" property="username" jdbcType="VARCHAR" />
+      <result column="userpic" property="userpic" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, fid, fnum, `data`, create_time, post_id
+  </sql>
+<!--  获取全部评论-->
+  <select id="getCommentList" resultMap="BaseResultMapWithUser">
+    select
+    c.id,c.user_id,c.fid,c.fnum,c.data,c.create_time,c.post_id,u.id,u.username,u.userpic
+    from
+    comment c,user u
+    where c.user_id = u.id
+  </select>
+<!--  获取用户评论数-->
+  <select id="getCommentnumByUser" parameterType="java.lang.Integer" resultType="int">
+    select count(*)
+    from comment
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+<!--  获取评论数-->
+  <select id="getCommentnum" parameterType="java.lang.Integer" resultType="int">
+    select count(*)
+    from comment
+    where post_id = #{postId,jdbcType=INTEGER}
+  </select>
+<!--  判断回复的评论是否存在-->
+  <select id="isCommentExist" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from comment
+    where id = #{fid,jdbcType=INTEGER}
+  </select>
+<!--  回复数+1-->
+  <update id="addFnum" parameterType="java.lang.Integer">
+    update comment
+    set fnum = fnum + 1
+    where id = #{fid,jdbcType=INTEGER}
+  </update>
+<!--  获取当前文章的评论列表-->
+  <select id="getComment" parameterType="java.lang.Integer" resultMap="BaseResultMapWithUser">
+    select
+    c.id,c.user_id,c.fid,c.fnum,c.data,c.create_time,c.post_id,u.id,u.username,u.userpic
+    from
+    comment c,user u
+    where c.post_id = #{postId,jdbcType=INTEGER} and c.user_id = u.id
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sarielx.study.xr.entity.Comment">
+    insert into comment (id, user_id, fid, 
+      fnum, data, create_time, 
+      post_id)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, 
+      #{fnum,jdbcType=INTEGER}, #{data,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, 
+      #{postId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sarielx.study.xr.entity.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="fid != null">
+        fid,
+      </if>
+      <if test="fnum != null">
+        fnum,
+      </if>
+      <if test="data != null">
+        data,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fid != null">
+        #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="fnum != null">
+        #{fnum,jdbcType=INTEGER},
+      </if>
+      <if test="data != null">
+        #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sarielx.study.xr.entity.Comment">
+    update comment
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fid != null">
+        fid = #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="fnum != null">
+        fnum = #{fnum,jdbcType=INTEGER},
+      </if>
+      <if test="data != null">
+        data = #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="postId != null">
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sarielx.study.xr.entity.Comment">
+    update comment
+    set user_id = #{userId,jdbcType=INTEGER},
+      fid = #{fid,jdbcType=INTEGER},
+      fnum = #{fnum,jdbcType=INTEGER},
+      data = #{data,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER},
+      post_id = #{postId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

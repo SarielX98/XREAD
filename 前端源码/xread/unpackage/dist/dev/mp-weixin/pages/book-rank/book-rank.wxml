@@ -1,0 +1,1 @@
+<view><book-list vue-id="0f1e839e-1" bookList="{{loadedBookList}}" bind:__l="__l"></book-list><uni-load-more vue-id="0f1e839e-2" status="{{loadMoreStatus}}" bind:__l="__l"></uni-load-more></view>

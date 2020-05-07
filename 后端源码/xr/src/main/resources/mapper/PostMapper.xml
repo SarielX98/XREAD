@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sarielx.study.xr.dao.PostMapper">
+  <resultMap id="BaseResultMap" type="com.sarielx.study.xr.entity.Post">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="titlepic" jdbcType="VARCHAR" property="titlepic" />
+    <result column="sharenum" jdbcType="INTEGER" property="sharenum" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="post_class_id" jdbcType="INTEGER" property="postClassId" />
+    <result column="share_id" jdbcType="INTEGER" property="shareId" />
+    <result column="isopen" jdbcType="TINYINT" property="isopen" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sarielx.study.xr.entity.Post">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <resultMap extends="ResultMapWithBLOBs" id="PostDetailMap" type="com.sarielx.study.xr.entity.Post">
+    <association property="user" javaType="com.sarielx.study.xr.entity.User" column="user_id">
+      <id column="user_id" jdbcType="INTEGER" property="id"/>
+      <result column="username" property="username" jdbcType="VARCHAR" />
+      <result column="userpic" property="userpic" jdbcType="VARCHAR" />
+    </association>
+<!--    <collection property="imageList" ofType="com.sarielx.study.xr.entity.Image" column="user_id">-->
+<!--      <result column="url" jdbcType="VARCHAR" property="url" />-->
+<!--    </collection>-->
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, title, titlepic, sharenum, path, `type`, create_time, post_class_id, share_id,
+    isopen
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+<!--  获取全部帖子-->
+  <select id="getPostList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from post
+  </select>
+<!--  获取帖子数-->
+  <select id="getPostnum" parameterType="java.lang.Integer" resultType="int">
+    select count(*)
+    from post
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+<!--  获取帖子详情-->
+  <select id="getPostDetail" parameterType="java.lang.Integer" resultMap="PostDetailMap">
+    select
+    p.id,p.user_id,p.title,p.titlepic,p.content,p.sharenum,p.path,p.`type`,p.create_time,p.post_class_id,p.share_id,p.isopen,u.id,u.username,u.userpic
+    from
+    post p,user u
+    where
+    p.id = #{id,jdbcType=INTEGER} and  p.user_id = u.id
+  </select>
+<!--  关联分享-->
+  <select id="getShare" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from post
+    where id = #{shareId,jdbcType=INTEGER}
+  </select>
+<!--  获取话题下的帖子-->
+  <select id="getPostByTopic" parameterType="java.lang.Integer" resultMap="PostDetailMap">
+    select
+    p.id,p.user_id,p.title,p.titlepic,p.content,p.sharenum,p.path,p.`type`,p.create_time,p.post_class_id,p.share_id,p.isopen,u.id,u.username,u.userpic
+    from
+    post p,user u
+    where
+    p.post_class_id = #{postClassId,jdbcType=INTEGER} and p.user_id = u.id
+  </select>
+<!--  获取用户下的帖子-->
+  <select id="getPostByUser" parameterType="java.lang.Integer" resultMap="PostDetailMap">
+    select
+    p.id,p.user_id,p.title,p.titlepic,p.content,p.sharenum,p.path,p.`type`,p.create_time,p.post_class_id,p.share_id,p.isopen,u.id,u.username,u.userpic
+    from
+    post p,user u
+    where
+    u.id = #{userId,jdbcType=INTEGER} and p.user_id = u.id and p.isopen = 1
+  </select>
+  <!--  获取用户下的帖子(含隐私)-->
+  <select id="getAllPostByUser" parameterType="java.lang.Integer" resultMap="PostDetailMap">
+    select
+    p.id,p.user_id,p.title,p.titlepic,p.content,p.sharenum,p.path,p.`type`,p.create_time,p.post_class_id,p.share_id,p.isopen,u.id,u.username,u.userpic
+    from
+    post p,user u
+    where
+    u.id = #{userId,jdbcType=INTEGER} and p.user_id = u.id
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from post
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from post
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sarielx.study.xr.entity.Post">
+    insert into post (id, user_id, title, 
+      titlepic, sharenum, path, 
+      type, create_time, post_class_id, 
+      share_id, isopen, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{titlepic,jdbcType=VARCHAR}, #{sharenum,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{postClassId,jdbcType=INTEGER}, 
+      #{shareId,jdbcType=INTEGER}, #{isopen,jdbcType=TINYINT}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.sarielx.study.xr.entity.Post">
+    insert into post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="titlepic != null">
+        titlepic,
+      </if>
+      <if test="sharenum != null">
+        sharenum,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="postClassId != null">
+        post_class_id,
+      </if>
+      <if test="shareId != null">
+        share_id,
+      </if>
+      <if test="isopen != null">
+        isopen,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="titlepic != null">
+        #{titlepic,jdbcType=VARCHAR},
+      </if>
+      <if test="sharenum != null">
+        #{sharenum,jdbcType=INTEGER},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="postClassId != null">
+        #{postClassId,jdbcType=INTEGER},
+      </if>
+      <if test="shareId != null">
+        #{shareId,jdbcType=INTEGER},
+      </if>
+      <if test="isopen != null">
+        #{isopen,jdbcType=TINYINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sarielx.study.xr.entity.Post">
+    update post
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="titlepic != null">
+        titlepic = #{titlepic,jdbcType=VARCHAR},
+      </if>
+      <if test="sharenum != null">
+        sharenum = #{sharenum,jdbcType=INTEGER},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="postClassId != null">
+        post_class_id = #{postClassId,jdbcType=INTEGER},
+      </if>
+      <if test="shareId != null">
+        share_id = #{shareId,jdbcType=INTEGER},
+      </if>
+      <if test="isopen != null">
+        isopen = #{isopen,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sarielx.study.xr.entity.Post">
+    update post
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      titlepic = #{titlepic,jdbcType=VARCHAR},
+      sharenum = #{sharenum,jdbcType=INTEGER},
+      path = #{path,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      post_class_id = #{postClassId,jdbcType=INTEGER},
+      share_id = #{shareId,jdbcType=INTEGER},
+      isopen = #{isopen,jdbcType=TINYINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sarielx.study.xr.entity.Post">
+    update post
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      titlepic = #{titlepic,jdbcType=VARCHAR},
+      sharenum = #{sharenum,jdbcType=INTEGER},
+      path = #{path,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      post_class_id = #{postClassId,jdbcType=INTEGER},
+      share_id = #{shareId,jdbcType=INTEGER},
+      isopen = #{isopen,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

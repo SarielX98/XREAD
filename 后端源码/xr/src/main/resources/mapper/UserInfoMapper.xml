@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sarielx.study.xr.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.sarielx.study.xr.entity.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="qg" jdbcType="TINYINT" property="qg" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, age, sex, qg, job, path, birthday
+  </sql>
+  <update id="editUserinfo" parameterType="com.sarielx.study.xr.entity.UserInfo">
+    update userinfo
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="qg != null">
+        qg = #{qg,jdbcType=TINYINT},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from userinfo
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sarielx.study.xr.entity.UserInfo">
+    insert into userinfo (id, user_id, age, 
+      sex, qg, job, path, 
+      birthday)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, 
+      #{sex,jdbcType=TINYINT}, #{qg,jdbcType=TINYINT}, #{job,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sarielx.study.xr.entity.UserInfo">
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="qg != null">
+        qg,
+      </if>
+      <if test="job != null">
+        job,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="qg != null">
+        #{qg,jdbcType=TINYINT},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sarielx.study.xr.entity.UserInfo">
+    update userinfo
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="qg != null">
+        qg = #{qg,jdbcType=TINYINT},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sarielx.study.xr.entity.UserInfo">
+    update userinfo
+    set user_id = #{userId,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=TINYINT},
+      qg = #{qg,jdbcType=TINYINT},
+      job = #{job,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

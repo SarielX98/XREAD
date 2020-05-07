@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sarielx.study.xr.dao.FollowMapper" >
+  <resultMap id="BaseResultMap" type="com.sarielx.study.xr.entity.Follow" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="follow_id" property="followId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="FollowMap" type="com.sarielx.study.xr.entity.Follow">
+    <association property="user" javaType="com.sarielx.study.xr.entity.User" column="follow_id">
+      <id column="follow_id" jdbcType="INTEGER" property="id"/>
+      <result column="username" property="username" jdbcType="VARCHAR" />
+      <result column="userpic" property="userpic" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="FensMap" type="com.sarielx.study.xr.entity.Follow">
+    <association property="user" javaType="com.sarielx.study.xr.entity.User" column="user_id">
+      <id column="user_id" jdbcType="INTEGER" property="id"/>
+      <result column="username" property="username" jdbcType="VARCHAR" />
+      <result column="userpic" property="userpic" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="FriendsMap" type="com.sarielx.study.xr.entity.Follow">
+    <association property="user" javaType="com.sarielx.study.xr.entity.User" column="user_id">
+      <id column="user_id" jdbcType="INTEGER" property="id"/>
+      <result column="username" property="username" jdbcType="VARCHAR" />
+      <result column="userpic" property="userpic" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, follow_id, user_id, create_time
+  </sql>
+  <!--  判断是否已关注-->
+  <select id="checkFollow" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from follow
+    where user_id = #{userId,jdbcType=INTEGER} and follow_id = #{followId,jdbcType=INTEGER}
+  </select>
+  <!--  取关-->
+  <delete id="unFollow" parameterType="java.lang.Integer" >
+    delete from follow
+    where user_id = #{userId,jdbcType=INTEGER} and follow_id = #{followId,jdbcType=INTEGER}
+  </delete>
+  <!--  获取关注数量-->
+  <select id="getFollowsnum" parameterType="java.lang.Integer" resultType="int">
+    select count(*)
+    from follow f,user u
+    where f.user_id = #{userId,jdbcType=INTEGER} and u.id = f.follow_id
+  </select>
+  <!--  获取关注列表-->
+  <select id="getFollows" resultMap="FollowMap" parameterType="java.lang.Integer">
+    select
+    f.id,f.follow_id,f.user_id,f.create_time,u.id,u.username,u.userpic
+    from follow f,user u
+    where f.user_id = #{userId,jdbcType=INTEGER} and u.id = f.follow_id
+  </select>
+<!--  获取粉丝数量-->
+  <select id="getFensnum" parameterType="java.lang.Integer" resultType="int">
+    select count(*)
+    from follow f,user u
+    where f.follow_id = #{userId,jdbcType=INTEGER} and u.id = f.user_id
+  </select>
+  <!--  获取粉丝列表-->
+  <select id="getFens" resultMap="FensMap" parameterType="java.lang.Integer">
+    select
+    f.id,f.follow_id,f.user_id,f.create_time,u.id,u.username,u.userpic
+    from follow f,user u
+    where f.follow_id = #{userId,jdbcType=INTEGER} and u.id = f.user_id
+  </select>
+  <!--  判断是否互关-->
+  <select id="checkFriend" resultMap="FriendsMap" parameterType="java.lang.Integer" >
+    select
+    f.id,f.follow_id,f.user_id,f.create_time,u.id,u.username,u.userpic
+    from follow f,user u
+    where f.user_id = #{userId,jdbcType=INTEGER} and f.follow_id = #{followId,jdbcType=INTEGER} and u.id = f.user_id
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from follow
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from follow
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sarielx.study.xr.entity.Follow" >
+    insert into follow (id, follow_id, user_id, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{followId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sarielx.study.xr.entity.Follow" >
+    insert into follow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="followId != null" >
+        follow_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="followId != null" >
+        #{followId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sarielx.study.xr.entity.Follow" >
+    update follow
+    <set >
+      <if test="followId != null" >
+        follow_id = #{followId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sarielx.study.xr.entity.Follow" >
+    update follow
+    set follow_id = #{followId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

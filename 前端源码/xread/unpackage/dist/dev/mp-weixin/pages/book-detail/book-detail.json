@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "详情",
+  "navigationBarBackgroundColor": "#A8B0C3",
+  "usingComponents": {
+    "tab-top": "/components/common/tab-top"
+  }
+}

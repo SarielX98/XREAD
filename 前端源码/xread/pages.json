@@ -1,0 +1,370 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus":{
+					//导航栏配置
+					"titleNView":{
+						//搜索框配置
+						"searchInput":{
+							"align":"center",
+							"backgroundColor":"#F5F4F2",
+							"borderRadius":"4px",
+							"disabled":true,
+							"placeholder":"搜索小说",
+							"placeholderColor":"#6D6C67"
+						},
+						"buttons":[
+							{
+								"color":"#333333",
+								"colorPressed":"#1296db",
+								"float":"right",
+								"fontSize":"20px",
+								"fontSrc":"/static/iconfont.ttf",
+								"text":"\ue696"
+							}
+						]
+					}
+				}
+			}
+		}
+        ,{
+            "path" : "pages/shelves/shelves",
+            "style" : {
+				"navigationBarTitleText":"我的书架"
+			}
+        }
+		,{
+		    "path" : "pages/community/community",
+		    "style" : {
+				"app-plus":{
+					"titleNView":{
+						//搜索框配置
+						"searchInput":{
+							"align":"center",
+							"backgroundColor":"#F5F4F2",
+							"borderRadius":"4px",
+							"disabled":true,
+							"placeholder":"搜索话题",
+							"placeholderColor":"#6D6C67"
+						},
+						"buttons":[
+							{
+								"color":"#333333",
+								"colorPressed":"#1296db",
+								"float":"right",
+								"fontSize":"20px",
+								"fontSrc":"/static/iconfont.ttf",
+								"text":"\ue7c8"
+							}
+						]
+					}
+				}
+			}
+		}
+        ,{
+            "path" : "pages/msg/msg",
+            "style" : {
+				"navigationBarTitleText":"消息列表",
+				"enablePullDownRefresh":true,
+				"app-plus":{
+					"titleNView":{
+						"buttons":[
+							{
+								"color":"#333333",
+								"colorPressed":"#1296db",
+								"float":"left",
+								"fontSize":"20px",
+								"fontSrc":"/static/iconfont.ttf",
+								"text":"\ue60d"
+							},
+							{
+								"color":"#333333",
+								"colorPressed":"#1296db",
+								"float":"right",
+								"fontSize":"20px",
+								"fontSrc":"/static/iconfont.ttf",
+								"text":"\ue648"
+							}
+						]
+					}
+				}
+			}
+        }
+        ,{
+            "path" : "pages/my/my",
+            "style" : {
+				"navigationBarTitleText":"我的",
+				"app-plus":{
+					"titleNView":{
+						"buttons":[{
+							"type":"menu"
+						}]
+					}
+				}
+			}
+        }
+        
+        ,{
+            "path" : "pages/search/search",
+            "style" : {
+				"enablePullDownRefresh":true,
+				"app-plus":{
+					//导航栏配置
+					"titleNView":{
+						//搜索框配置
+						"searchInput":{
+							"align":"center",
+							"backgroundColor":"#F5F4F2",
+							"borderRadius":"4px",
+							"placeholder":"搜索小说",
+							"placeholderColor":"#6D6C67"
+						},
+						"buttons":[
+							{
+								"color":"#333333",
+								"colorPressed":"#1296db",
+								"float":"right",
+								"fontSize":"14px",
+								"text":"搜索"
+							}
+						]
+					}
+				}
+			}
+        }
+        ,{
+            "path" : "pages/add-input/add-input",
+            "style" : {
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/user-list/user-list",
+            "style" : {
+				"app-plus":{
+					//动画效果
+					"animationType":"slide-in-left",
+					//导航栏配置
+					"titleNView":{
+						//取消返回按钮
+						"autoBackButton":false,
+						//搜索框配置
+						"searchInput":{
+							"align":"center",
+							"backgroundColor":"#F5F4F2",
+							"borderRadius":"4px",
+							"disabled":true,
+							"placeholder":"搜索用户",
+							"placeholderColor":"#6D6C67"
+						},
+						"buttons":[
+							{
+								"color":"#333333",
+								"colorPressed":"#1296db",
+								"float":"right",
+								"fontSize":"15px",
+								"text":"取消"
+							}
+						]
+					}
+				}
+			}
+        }
+        ,{
+            "path" : "pages/topic-nav/topic-nav",
+            "style" : {
+				"navigationBarTitleText":"话题分类"
+			}
+        }
+        ,{
+            "path" : "pages/topic-detail/topic-detail",
+            "style" : {
+				"app-plus":{
+					"titleNView":{
+						"type":"transparent",
+						"buttons":[{
+							"type":"menu"
+						}]
+					}
+				}
+			}
+        }
+        ,{
+            "path" : "pages/user-chat/user-chat",
+            "style" : {
+				"app-plus":{
+					"titleNView":{
+						"bounce":"none",
+						"buttons":[{
+							"color":"#333333",
+							"colorPressed":"#1296db",
+							"float":"right",
+							"fontSize":"20px",
+							"fontSrc":"/static/iconfont.ttf",
+							"text":"\ue6b8"
+						}]
+					}
+				}
+			}
+        }
+        ,{
+            "path" : "pages/detail/detail",
+            "style" : {
+				"app-plus":{
+					"titleNView":{
+						"buttons":[{
+							"type":"menu",
+							"float":"right"
+						}]
+					}
+				}
+			}
+        }
+        ,{
+            "path" : "pages/user-set/user-set",
+            "style" : {
+				"navigationBarTitleText":"设置"
+			}
+        }
+        ,{
+            "path" : "pages/user-password/user-password",
+            "style" : {
+				"navigationBarTitleText":"修改密码"
+			}
+        }
+        ,{
+            "path" : "pages/user-email/user-email",
+            "style" : {
+				"navigationBarTitleText":"绑定邮箱"
+			}
+        }
+        ,{
+            "path" : "pages/user-info/user-info",
+            "style" : {
+				"navigationBarTitleText":"修改资料"
+			}
+        }
+        ,{
+            "path" : "pages/user-feedback/user-feedback",
+            "style" : {
+				"navigationBarTitleText":"意见反馈"
+			}
+        }
+        ,{
+            "path" : "pages/about/about",
+            "style" : {
+				"navigationBarTitleText":"关于艾克斯阅读"
+			}
+        }
+        ,{
+            "path" : "pages/login/login",
+            "style" : {
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/user-space/user-space",
+            "style" : {
+				"navigationBarTitleText":"个人空间",
+				"app-plus":{
+					"titleNView":{
+						"buttons":[{
+							"type":"menu"
+						}]
+					}
+				}
+			}
+        }
+        ,{
+            "path" : "pages/book-category/book-category",
+            "style" : {
+				"navigationBarTitleText":"分类"
+			}
+        }
+        ,{
+            "path" : "pages/book-rank/book-rank",
+            "style" : {
+				"navigationBarTitleText":"排行榜"
+			}
+        }
+        ,{
+            "path" : "pages/book-detail/book-detail",
+            "style" : {
+				"navigationBarTitleText":"详情",
+				"navigationBarBackgroundColor":"#A8B0C3"
+			}
+        }
+        ,{
+            "path" : "pages/book-reading/book-reading",
+            "style" : {
+				"app-plus":{
+					"titleNView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/book-recommend/book-recommend",
+            "style" : {
+				"navigationBarTitleText":"推荐"
+			}
+        }
+        ,{
+            "path" : "pages/book-booklist/book-booklist",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/book-catdetail/book-catdetail",
+            "style" : {
+				"enablePullDownRefresh":true
+			}
+        }
+        ,{
+            "path" : "pages/book-search/book-search",
+            "style" : {}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "艾克斯阅读",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar":{
+		"color":"#8a8a8a",
+		"selectedColor":"#1296db",
+		"backgroundColor":"#FFFFFF",
+		"borderStyle":"black",
+		"list":[{
+			"pagePath":"pages/index/index",
+			"text":"书库",
+			"iconPath":"static/tabbar/home.png",
+			"selectedIconPath":"static/tabbar/homed.png"
+		},{
+			"pagePath":"pages/shelves/shelves",
+			"text":"书架",
+			"iconPath":"static/tabbar/book.png",
+			"selectedIconPath":"static/tabbar/booked.png"
+		},{
+			"pagePath":"pages/community/community",
+			"text":"社区",
+			"iconPath":"static/tabbar/community.png",
+			"selectedIconPath":"static/tabbar/communityed.png"
+		},{
+			"pagePath":"pages/msg/msg",
+			"text":"消息",
+			"iconPath":"static/tabbar/message.png",
+			"selectedIconPath":"static/tabbar/messaged.png"
+		},{
+			"pagePath":"pages/my/my",
+			"text":"我的",
+			"iconPath":"static/tabbar/my.png",
+			"selectedIconPath":"static/tabbar/myed.png"
+		}]
+	}
+}

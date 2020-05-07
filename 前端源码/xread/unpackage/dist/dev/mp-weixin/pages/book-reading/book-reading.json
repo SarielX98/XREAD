@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "uni-status-bar": "/components/uni-ui/uni-status-bar/uni-status-bar",
+    "uni-load-more": "/components/uni-ui/uni-load-more/uni-load-more",
+    "uni-drawer": "/components/uni-ui/uni-drawer/uni-drawer"
+  }
+}

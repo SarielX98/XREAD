@@ -1,0 +1,1 @@
+<swiper class="px-2 py-2" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{1000}}" indicator-active-color="#FFFFFF"><block wx:for="{{imgArr}}" wx:for-item="item" wx:for-index="index" wx:key="index"><swiper-item><image class="w-100 rounded" style="height:300rpx;" src="{{item.src}}"></image></swiper-item></block></swiper>

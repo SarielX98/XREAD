@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我的书架",
+  "usingComponents": {
+    "shelves-list": "/components/shelves/shelves-list",
+    "uni-popup": "/components/uni-ui/uni-popup/uni-popup"
+  }
+}
